@@ -20,7 +20,7 @@ class billing {
      void customer();
      void add();
      void edit();
-     void remove();
+     void removeProduct();
      void list();
      void bill();
 
@@ -175,5 +175,125 @@ void billing :: add(){
     }
 
     cout<<"\t\t\t       Product has been inserted to file ! \n";
+
+}
+
+
+void billing :: edit(){
+
+    fstream d1 , d2 ;
+    int pc ;
+    int t=0;
+    int c ;
+    float p;
+    float d ;
+    string n ;
+
+
+    cout<<"\t\t\t     Edit the product      \n";
+    cout<<"\t\t\t     Enter the product code :     \n";
+    cin>>pc;
+    
+
+    d1.open(database.txt , ios::in);
+
+    if(!d1)
+       cout<<"\t\t\t     ERORR ! file doesn't exists     \n";
+    else
+    {
+
+        d2.open(database.txt , ios::app|ios::out);
+
+        d1>>productCode>>productName>>price>>discount;
+
+        while(!d1.eof())
+        {
+            if(pc == productCode)
+            {
+                cout<<"\n\t\t\t     Enter the new product code    \n";
+                cin>>c;
+                cout<<"\n\t\t\t     Enter the new product name    \n";
+                cin>>n;
+                cout<<"\n\t\t\t     Enter the new product price    \n";
+                cin>>p;
+                cout<<"\n\t\t\t     Enter the new product discount    \n";
+                cin>>d;
+
+                d2<<"  "<<c<<"  "<<n<<"  "<<p<<"  "<<d<<"\n";
+                cout<<"\t\t\t    edit is done    \n";
+                t++;
+
+            }else
+            {
+                d2<<productCode<<"  "<<productName<<"  "<<price<<"  "<<discount<<"\n";
+
+            }
+
+            d1>>productCode>>productName>>price>>discount;
+        }
+
+        d1.close();
+        d2.close();
+
+        remove("database.txt");
+        rename("database1.txt" , "database.txt");
+
+
+        if(t==0)
+           cout<<"\t\t\t      product can not be found    \n";
+    }
+}
+
+
+
+void billing :: removeProduct(){
+
+    fstream d1 , d2 ;
+    int pc ;
+    int t=0;
+
+
+    
+    cout<<"\t\t\t     Edit the product      \n";
+    cout<<"\t\t\t     Enter the product code :     \n";
+    cin>>pc;
+    
+
+    d1.open(database.txt , ios::in);
+
+    if(!d1)
+       cout<<"\t\t\t     ERORR ! file doesn't exists     \n";
+    else
+    {
+
+        d2.open(database.txt , ios::app|ios::out);
+
+        d1>>productCode>>productName>>price>>discount;
+
+        while(!d1.eof())
+        {
+            if(pc == productCode)
+            {
+                cout<<"\t\t\t     product has been removed !   \n"
+                t++;
+            }else
+            {
+                d2<<productCode<<"  "<<productName<<"  "<<price<<"  "<<discount<<"\n";
+            }
+
+            d1>>productCode>>productName>>price>>discount;
+
+        }
+
+        d1.close();
+        d2.close();
+
+        remove("database.txt");
+        rename("database1.txt" , "database.txt");
+
+        if(t==0)
+           cout<<"\t\t\t      product can not be found    \n";
+
+    }        
 
 }

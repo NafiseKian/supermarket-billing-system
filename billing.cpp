@@ -29,14 +29,14 @@ class billing {
 
 void billing :: menu(){
  
-    m;
+    m:
     int choice ;
     string email ; 
     string password ;
 
 
     cout<<"\n\t\t\t        welcome to killer supermarket           \n\n\n";
-    cout<<"\t\t\t        1)Admin\n\t\t\t         2)cuustomer\n\t\t\t           3)exit\n";
+    cout<<"\t\t\t        1)Admin\n\t\t\t        2)cuustomer\n\t\t\t        3)exit\n";
     cin>>choice;
 
 
@@ -66,19 +66,19 @@ void billing :: menu(){
 
 void billing :: admin (){
 
-    m;
+    m:
     int choice ;
 
     cout<<"\t\t\t       Welcome Administrator        \n";
     cout<<"\t\t\t------------------------------------\n";
-    cout<<"\t\t\t   1)add product\n\t\t\t    2)remove product\n\t\t\t    3)edit product\n\t\t\t    4)back to main menu\n";
+    cout<<"\t\t\t    1)add product\n\t\t\t    2)remove product\n\t\t\t    3)edit product\n\t\t\t    4)back to main menu\n";
     cin>>choice;
 
 
     switch (choice)
     {
     case 1: add(); break;
-    case 2:remove();break;
+    case 2:removeProduct();break;
     case 3:edit();break;
     case 4:menu();break; 
     
@@ -94,7 +94,7 @@ void billing :: admin (){
 
 void billing :: customer(){
 
-    m;
+    m:
     int choice ;
 
     cout<<"\t\t\t      welcome to killer supermarket    \n";
@@ -120,7 +120,7 @@ void billing :: customer(){
 
 void billing :: add(){
 
-    m;
+    m:
     fstream data ;
     int c ;
     int t =0 ;
@@ -139,12 +139,12 @@ void billing :: add(){
     cout<<"\t\t\t     Enter the product discount    \n";
     cin>>discount;
 
-    data.open(database.txt , ios::in);
+    data.open("database.txt" , ios::in);
 
     if(!data)
     {
-        data.open(database.txt , ios::app|ios::out);
-        dtat<<"  "<<productCode<<"  "<<producName<<"  "<<price<<"   "<<discount<<"   \n";
+        data.open("database.txt" , ios::app|ios::out);
+        data<<"  "<<productCode<<"  "<<productName<<"  "<<price<<"   "<<discount<<"   \n";
         data.close();
     }else
     {
@@ -168,8 +168,8 @@ void billing :: add(){
       goto m ;
     else
     {
-       data.open(database.txt , ios::app|ios::out);
-       dtat<<"  "<<productCode<<"  "<<producName<<"  "<<price<<"   "<<discount<<"   \n";
+       data.open("database.txt" , ios::app|ios::out);
+       data<<"  "<<productCode<<"  "<<productName<<"  "<<price<<"   "<<discount<<"   \n";
        data.close();
     }
     }
@@ -195,14 +195,14 @@ void billing :: edit(){
     cin>>pc;
     
 
-    d1.open(database.txt , ios::in);
+    d1.open("database.txt" , ios::in);
 
     if(!d1)
        cout<<"\t\t\t     ERORR ! file doesn't exists     \n";
     else
     {
 
-        d2.open(database.txt , ios::app|ios::out);
+        d2.open("database.txt" , ios::app|ios::out);
 
         d1>>productCode>>productName>>price>>discount;
 
@@ -259,14 +259,14 @@ void billing :: removeProduct(){
     cin>>pc;
     
 
-    d1.open(database.txt , ios::in);
+    d1.open("database.txt" , ios::in);
 
     if(!d1)
        cout<<"\t\t\t     ERORR ! file doesn't exists     \n";
     else
     {
 
-        d2.open(database.txt , ios::app|ios::out);
+        d2.open("database.txt" , ios::app|ios::out);
 
         d1>>productCode>>productName>>price>>discount;
 
@@ -274,7 +274,7 @@ void billing :: removeProduct(){
         {
             if(pc == productCode)
             {
-                cout<<"\t\t\t     product has been removed !   \n"
+                cout<<"\t\t\t     product has been removed !   \n";
                 t++;
             }else
             {
@@ -296,4 +296,120 @@ void billing :: removeProduct(){
 
     }        
 
+}
+
+
+
+
+void billing :: list(){
+
+    fstream data ;
+    data.open("database.txt" , ios::in);
+
+    do{
+
+        data>>productCode>>productName>>price>>discount;
+        cout<<"\t\t\t"<<productCode<<"\t\t"<<productName<<"\t\t"<<price<<"\t\t"<<discount<<"\n";
+
+    }while (!data.eof());
+
+    data.close();    
+
+
+}
+
+
+void billing::bill(){
+
+
+    m:
+	fstream data ;
+
+    int arr1[99];
+    int arr2[99];
+
+    char ch ;
+    int c = 0 ;
+    float amount ;
+    float total ;
+    float minus=0 ;
+
+    cout<<"\n\t\t\t        Receipt          \n";
+
+    data.open("database.txt" , ios::in);
+    if(!data)
+       cout<<"\t\t\t     file doesn't exists      \n";
+    else
+    {
+        data.close();
+        list();
+        cout<<"\t\t\t----------------------------------\n";
+        cout<<"\n\n\t\t\t               you can order now                \n";
+        cout<<"\n\t\t\t--------------------------------------\n";
+
+        do{
+            cout<<"\t\t\t     Enter the product code          \n";
+            cin>>arr1[c];
+            cout<<"\t\t\t     Enter the quantity              \n";
+            cin>>arr2[c];
+
+            for(int i=0 ; i<c ; i++)
+            {
+                if(arr1[c]==arr1[i])
+                {
+                    cout<<"\t\t\t           this product already exists , try again          \n";
+                    goto m;
+                }
+
+            }
+            c++;
+            cout<<"\t\t\t         Are you gonna continue shopping ? (y/n)           \n";
+            cin>>ch;
+        }while(ch == 1);
+
+
+        cout<<"\t\t\t                    RECEIPT                     \n";
+        cout<<"\t\t\t product code\t\tproduct name\t\tquantity\t\tprice\t\tdiscount\t\n";
+
+        for(int i=0 ; i<c ; i++)
+        {
+            data.open("database.txt" , ios::in);
+            data>>productCode>>productName>>price>>discount;
+            while (!data.eof())
+            {
+                if(productCode==arr1[i])
+                {
+                    amount=price*arr2[i];
+                    minus=amount-(amount*discount/100);
+                    total+=minus;
+                    cout<<"\n\t\t\t"<<productCode<<"\t"<<productName<<"\t"<<arr2[i]<<"\t"<<price<<"\t"<<discount<<"\n";
+
+                }
+
+                data>>productCode>>productName>>price>>discount;
+            }
+            
+
+        }
+
+        data.close();
+
+    }
+
+
+    cout<<"\t\t\t-------------------------------------------------------\n";
+    cout<<"\t\t\t     Total amount: "<<total<<"\n";
+
+
+
+}
+
+
+
+int main(void){
+
+    billing c ;
+    c.menu();
+
+    return 0 ;
 }

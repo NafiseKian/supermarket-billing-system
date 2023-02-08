@@ -69,8 +69,8 @@ void billing :: admin (){
     m:
     int choice ;
 
-    cout<<"\t\t\t       Welcome Administrator        \n";
-    cout<<"\t\t\t------------------------------------\n";
+    cout<<"\t\t\t                   Welcome Administrator        \n";
+    cout<<"\n\t\t\t---------------------------------------------------------\n";
     cout<<"\t\t\t    1)add product\n\t\t\t    2)remove product\n\t\t\t    3)edit product\n\t\t\t    4)back to main menu\n";
     cin>>choice;
 
@@ -97,10 +97,10 @@ void billing :: customer(){
     m:
     int choice ;
 
-    cout<<"\t\t\t      welcome to killer supermarket    \n";
-    cout<<"\t\t\t---------------------------------------\n";
-    cout<<"\t\t\t      eneter your choice               \n";
-    cout<<"\t\t\t      1) buy product\n\t\t\t       2)back to menu\n";
+    cout<<"\t\t\t             welcome to killer supermarket    \n";
+    cout<<"\n\t\t\t---------------------------------------------------------\n";
+    cout<<"\t\t\t             eneter your choice               \n";
+    cout<<"\t\t\t             1)buy product\n\t\t\t           2)back to menu\n";
     cin>>choice;
 
 
@@ -129,7 +129,7 @@ void billing :: add(){
     string n ;
 
     cout<<"\t\t\t       Add the product         \n";
-    cout<<"\t\t\t-------------------------------\n";
+    cout<<"\t\t\t-----------------------------------\n";
     cout<<"\t\t\t     Enter the product code    \n";
     cin>>productCode;
     cout<<"\t\t\t     Enter the product name    \n";
@@ -331,7 +331,7 @@ void billing::bill(){
     char ch ;
     int c = 0 ;
     float amount ;
-    float total ;
+    float total=0 ;
     float minus=0 ;
 
     cout<<"\n\t\t\t        Receipt          \n";
@@ -343,9 +343,9 @@ void billing::bill(){
     {
         data.close();
         list();
-        cout<<"\t\t\t----------------------------------\n";
-        cout<<"\n\n\t\t\t               you can order now                \n";
-        cout<<"\n\t\t\t--------------------------------------\n";
+        cout<<"\n\t\t\t---------------------------------------------------------\n";
+        cout<<"\n\n\t\t\t               you can order now                     \n";
+        cout<<"\n\t\t\t---------------------------------------------------------\n";
 
         do{
             cout<<"\t\t\t     Enter the product code          \n";
@@ -363,15 +363,18 @@ void billing::bill(){
 
             }
             c++;
+            cout<<"\n\t\t\t---------------------------------------------------------\n";
             cout<<"\t\t\t         Are you gonna continue shopping ? (y/n)           \n";
             cin>>ch;
-        }while(ch == 1);
+        }while(ch == 'y');
 
 
-        cout<<"\t\t\t                    RECEIPT                     \n";
-        cout<<"\t\t\t product code\t\tproduct name\t\tquantity\t\tprice\t\tdiscount\t\n";
+        cout<<"\t\t\t                       RECEIPT                     \n\n";
+         cout<<"\n\t\t\t------------------------------------------------\n";
+        cout<<"\t\t\t product code\tproduct name\tquantity\tprice\tdiscount\t\n";
 
-        for(int i=0 ; i<c ; i++)
+
+        for(int i=0 ; i<c+1 ; i++)
         {
             data.open("database.txt" , ios::in);
             data>>productCode>>productName>>price>>discount;
@@ -380,9 +383,9 @@ void billing::bill(){
                 if(productCode==arr1[i])
                 {
                     amount=price*arr2[i];
-                    minus=amount-(amount*discount/100);
-                    total+=minus;
-                    cout<<"\n\t\t\t"<<productCode<<"\t"<<productName<<"\t"<<arr2[i]<<"\t"<<price<<"\t"<<discount<<"\n";
+                    amount=amount-(amount*(discount/100));
+                    total+=amount;
+                    cout<<"\n\t\t\t"<<productCode<<"\t\t"<<productName<<"\t\t"<<arr2[i]<<"\t\t"<<price<<"\t"<<discount<<"\n";
 
                 }
 
@@ -397,7 +400,7 @@ void billing::bill(){
     }
 
 
-    cout<<"\t\t\t-------------------------------------------------------\n";
+    cout<<"\t\t\t-------------------------------------------\n";
     cout<<"\t\t\t     Total amount: "<<total<<"\n";
 
 
